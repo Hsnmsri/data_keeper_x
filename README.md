@@ -6,7 +6,13 @@ DataKeeperX is a microservice designed for storing and managing customizable dat
 ```bash
 git clone https://github.com/Hsnmsri/data_keeper_x.git
 ```
-## install dependencies
+
+- move to peroject directory
+```bash
+cd data_keeper_x
+```
+
+- install dependencies
 ```bash
 composer install
 ```
