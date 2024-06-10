@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger("relation_id")->nullable();
             $table->string("name")->nullable();
-            $table->json("data");
+            $table->text("data");
             $table->string("signature")->nullable();
             $table->timestamps();
         });

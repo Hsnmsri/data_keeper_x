@@ -9,5 +9,5 @@ class Data extends Model
 {
     use HasFactory;
 
-    private $table = "data";
+    protected $table = "data";
 }
