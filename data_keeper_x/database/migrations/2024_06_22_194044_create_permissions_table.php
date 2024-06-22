@@ -11,14 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('data', function (Blueprint $table) {
+        Schema::disableForeignKeyConstraints();
+
+        Schema::create('permissions', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger("relation_id")->nullable();
-            $table->string("name")->nullable();
-            $table->text("data");
-            $table->string("signature")->nullable();
-            $table->timestamps();
+            $table->string('name');
+            $table->string('description');
+            $table->timestamp('created_at');
+            $table->timestamp('updated_at');
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('data');
+        Schema::dropIfExists('permissions');
     }
 };

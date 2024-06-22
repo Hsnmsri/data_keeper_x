@@ -5,11 +5,8 @@ namespace App\Http\Controllers;
 use App\Classes\ResponseBodyBuilder;
 use App\Models\Data;
 use Exception;
-use Hamcrest\Type\IsNumeric;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
-use function PHPUnit\Framework\isJson;
 
 class DataController extends Controller
 {
