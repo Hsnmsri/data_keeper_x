@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Data extends Model
+class Category extends Model
 {
     use HasFactory;
 
@@ -14,8 +14,8 @@ class Data extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function category()
+    public function data()
     {
-        return $this->belongsTo(Category::class);
+        return $this->hasMany(Data::class);
     }
 }
