@@ -16,3 +16,6 @@ cd data_keeper_x
 ```bash
 composer install
 ```
+
+## Resources
+[Postman Collection](./documents/postman%20collection/Data%20Keeper%20X.json)
