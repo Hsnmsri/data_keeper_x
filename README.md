@@ -18,4 +18,9 @@ composer install
 ```
 
 ## Resources
-[Postman Collection](./documents/postman%20collection/Data%20Keeper%20X.json)
+[DK-X Developer API Postman Collection](./documents/postman%20collection/Data%20Keeper%20X.json)
+
+[DK-X Client API Postman Collection](./documents/postman%20collection/Data%20Keeper%20X%20-%20Client)
+
+` 'DK-X' is Data Keeper X `
+> The difference between the client and developer API collections is that users who utilize this service for developing their software and websites should use the client collection, while developers who intend to develop a user interface or assist us in developing this service should use the developer collection.
