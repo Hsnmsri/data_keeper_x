@@ -1,0 +1,184 @@
+{
+	"info": {
+		"_postman_id": "1b59d255-22c1-47f6-9673-b0ede962d0b3",
+		"name": "Data Keeper X - Client",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26248700"
+	},
+	"item": [
+		{
+			"name": "Create New Data Record",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "api_secret",
+							"value": "",
+							"description": "Your Api Secret assigned to you on your profile",
+							"type": "text"
+						},
+						{
+							"key": "category_id",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "data",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/client/data",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"client",
+						"data"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Data",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "api_secret",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "category_id",
+							"value": "",
+							"description": "New category id for update category *optional",
+							"type": "text"
+						},
+						{
+							"key": "data",
+							"value": "",
+							"description": "New data for update and replace with old data",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/client/data/:data_id",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"client",
+						"data",
+						":data_id"
+					],
+					"variable": [
+						{
+							"key": "data_id",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Data",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/client/data/:data_id",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"client",
+						"data",
+						":data_id"
+					],
+					"variable": [
+						{
+							"key": "data_id",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Data List",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "category_id",
+							"value": "",
+							"description": "Category id for filter returned data *optional",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/data",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"data"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "http://127.0.0.1:8000",
+			"type": "string"
+		}
+	]
+}
