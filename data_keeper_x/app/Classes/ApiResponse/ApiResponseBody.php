@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Classes;
+namespace App\Classes\ApiResponse;
 
 /**
  * Class ApiResponseBody
