@@ -22,8 +22,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('password');
             $table->string('api_secret');
-            $table->timestamp('created_at');
-            $table->timestamp('updated_at');
+            $table->timestamps();
         });
 
         Schema::enableForeignKeyConstraints();

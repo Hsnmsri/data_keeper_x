@@ -20,8 +20,7 @@ return new class extends Migration
             $table->bigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->longText('data_body');
-            $table->timestamp('created_at');
-            $table->timestamp('updated_at');
+            $table->timestamps();
         });
 
         Schema::enableForeignKeyConstraints();

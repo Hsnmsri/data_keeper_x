@@ -19,8 +19,7 @@ return new class extends Migration
             $table->foreign('role_id')->references('id')->on('roles');
             $table->bigInteger('permission_id');
             $table->foreign('permission_id')->references('id')->on('permissions');
-            $table->timestamp('created_at');
-            $table->timestamp('updated_at');
+            $table->timestamps();
         });
 
         Schema::enableForeignKeyConstraints();
