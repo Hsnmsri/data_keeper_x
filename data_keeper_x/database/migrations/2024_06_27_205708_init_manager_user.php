@@ -60,8 +60,8 @@ return new class extends Migration
             'first_name' => "admin",
             'last_name' => "admin",
             'email' => "admin@admin.com",
-            'password' => Hash::make(1 . 'admin' . 1),
-            'api_secret' => Str::random(env("API_SECRET_LENGHT")),
+            'password' => Hash::make(1 . '123@admin' . 1),
+            'api_secret' => Str::random(128),
         ]);
     }
 
