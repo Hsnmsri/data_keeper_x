@@ -8,7 +8,7 @@ Route::prefix("/")->group(function () {
 
     // authentication
     Route::post("login", [AuthController::class, "Login"]);
-    Route::delete("logout/{id}", [AuthController::class, "Logout"]);
+    Route::get("verify_token", [AuthController::class, "verifyAccessToken"]);
 
     // reset password
     Route::post("reset_password/request", [AuthController::class, "requestResetPassword"]);
