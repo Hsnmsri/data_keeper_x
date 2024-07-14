@@ -10,7 +10,7 @@ Route::prefix("/")->group(function () {
 
     // authentication
     Route::post("login", [AuthController::class, "Login"]);
-    Route::get("verify_token", [AuthController::class, "verifyAccessToken"]);
+    Route::get("verify_token", [AuthController::class, "verifyAccessToken"])->middleware([AccessTokenCheck::class]);
 
     // reset password
     Route::prefix("reset_password")->group(function () {
@@ -29,5 +29,5 @@ Route::prefix("/")->group(function () {
         Route::put("{id}/role", [UserController::class, "updateUserRole"]);
         Route::post("{id}/api_secret", [UserController::class, "renewUserApiSecret"]);
         Route::delete("{id}", [UserController::class, "deleteUser"]);
-    })->middleware(AccessTokenCheck::class);
+    })->middleware([AccessTokenCheck::class]);
 });
