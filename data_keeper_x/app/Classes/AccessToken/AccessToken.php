@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Classes\Token;
+namespace App\Classes\AccessToken;
 
 use Exception;
 use Firebase\JWT\JWT;
@@ -73,5 +73,16 @@ class AccessToken
             // Token is invalid for some other reason
             return true;
         }
+    }
+
+    public static function getUserIdFromToken(string $token)
+    {
+        // Get the secret key from the environment variable
+        $secretKey = env('JWT_SECRET');
+
+        // Decode the token
+        $decoded = JWT::decode($token, new Key($secretKey, 'HS256'));
+
+        dd($decoded);
     }
 }
