@@ -176,16 +176,61 @@ class UserController extends Controller
 
     public function updateUserRole(Request $request)
     {
-        return "updateUserRole worked!";
+        // validation
+        $validatorArray = [
+            "role_id" => "required",
+        ];
+
+        $validation = Validator::make($request->all(), $validatorArray);
+        if ($validation->fails()) {
+            return ApiResponse::failure()->errors($validation->errors()->toArray())->toArray();
+        }
+
+        try {
+            // update user
+            $user = User::find($request->id);
+            $user->role_id = $request->role_id;
+
+            // update user
+            if (!$user->save()) {
+                return ApiResponse::failure()->toArray();
+            }
+
+            return ApiResponse::success()->toArray();
+        } catch (\Exception $errors) {
+            return ApiResponse::failure()->data($errors->getMessage() ?? [])->toArray();
+        }
     }
 
     public function renewUserApiSecret(Request $request)
     {
-        return "renewUserApiSecret worked!";
+        try {
+            // update user
+            $user = User::find($request->id);
+            $user->api_secret = ApiSecretToken::make($user->id);
+
+            // update user
+            if (!$user->save()) {
+                return ApiResponse::failure()->toArray();
+            }
+
+            return ApiResponse::success()->toArray();
+        } catch (\Exception $errors) {
+            return ApiResponse::failure()->data($errors->getMessage() ?? [])->toArray();
+        }
     }
 
     public function deleteUser(Request $request)
     {
-        return "deleteUser worked!";
+        try {
+            // delete user
+            if (!User::find($request->id)->delete()) {
+                return ApiResponse::failure()->toArray();
+            }
+
+            return ApiResponse::success()->toArray();
+        } catch (\Exception $errors) {
+            return ApiResponse::failure()->data($errors->getMessage() ?? [])->toArray();
+        }
     }
 }
