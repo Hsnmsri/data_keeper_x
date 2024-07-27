@@ -83,17 +83,95 @@ class UserController extends Controller
 
     public function updateUser(Request $request)
     {
+        // validation
+        $validatorArray = [
+            "first_name" => "required",
+            "last_name" => "required",
+        ];
+
+        $validation = Validator::make($request->all(), $validatorArray);
+        if ($validation->fails()) {
+            return ApiResponse::failure()->errors($validation->errors()->toArray())->toArray();
+        }
+
+        try {
+            // get user
+            $user = User::find($request->id);
+            $user->first_name = $request->first_name;
+            $user->last_name = $request->last_name;
+
+            // update user
+            if (!$user->save()) {
+                return ApiResponse::failure()->toArray();
+            }
+
+            return ApiResponse::success()->toArray();
+        } catch (\Exception $errors) {
+            return ApiResponse::failure()->data($errors->getMessage() ?? [])->toArray();
+        }
+
         return "updateUser worked!";
     }
 
     public function updateUserEmail(Request $request)
     {
-        return "updateUserEmail worked!";
+        // validation
+        $validatorArray = [
+            "email" => "email|required",
+        ];
+
+        $validation = Validator::make($request->all(), $validatorArray);
+        if ($validation->fails()) {
+            return ApiResponse::failure()->errors($validation->errors()->toArray())->toArray();
+        }
+
+        // check email exist
+        if (User::where("email", $request->email)->count() !== 0) {
+            return ApiResponse::failure(409, "Conflict")->toArray();
+        }
+
+        try {
+            // update user
+            $user = User::find($request->id);
+            $user->email = $request->email;
+
+            // update user
+            if (!$user->save()) {
+                return ApiResponse::failure()->toArray();
+            }
+
+            return ApiResponse::success()->toArray();
+        } catch (\Exception $errors) {
+            return ApiResponse::failure()->data($errors->getMessage() ?? [])->toArray();
+        }
     }
 
     public function updateUserPassword(Request $request)
     {
-        return "updateUserPassword worked!";
+        // validation
+        $validatorArray = [
+            "new_password" => "required",
+        ];
+
+        $validation = Validator::make($request->all(), $validatorArray);
+        if ($validation->fails()) {
+            return ApiResponse::failure()->errors($validation->errors()->toArray())->toArray();
+        }
+
+        try {
+            // update user
+            $user = User::find($request->id);
+            $user->password = $user->id . Hash::make($request->password) . $user->id;
+
+            // update user
+            if (!$user->save()) {
+                return ApiResponse::failure()->toArray();
+            }
+
+            return ApiResponse::success()->toArray();
+        } catch (\Exception $errors) {
+            return ApiResponse::failure()->data($errors->getMessage() ?? [])->toArray();
+        }
     }
 
     public function updateUserRole(Request $request)
