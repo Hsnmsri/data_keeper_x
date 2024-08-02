@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Classes\ApiResponse\ApiResponse;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +19,7 @@ class AccessTokenCheck
             is_null($request->bearerToken()) ||
             \App\Classes\AccessToken\AccessToken::isExpired($request->bearerToken())
         ) {
-            return response(null, 403);
+            return response(null, 401);
         }
         return $next($request);
     }
