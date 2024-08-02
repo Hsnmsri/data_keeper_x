@@ -19,7 +19,7 @@ Route::prefix("/")->group(function () {
     });
 
     // user
-    Route::prefix("users")->group(function () {
+    Route::prefix("users")->middleware([AccessTokenCheck::class])->group(function () {
         Route::get("/", [UserController::class, "getUserList"]);
         Route::post("/", [UserController::class, "createUser"]);
         Route::get("{id}", [UserController::class, "getUserById"]);
@@ -29,5 +29,5 @@ Route::prefix("/")->group(function () {
         Route::put("{id}/role", [UserController::class, "updateUserRole"]);
         Route::post("{id}/api_secret", [UserController::class, "renewUserApiSecret"]);
         Route::delete("{id}", [UserController::class, "deleteUser"]);
-    })->middleware([AccessTokenCheck::class]);
+    });
 });
