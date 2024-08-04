@@ -36,29 +36,29 @@
 							"urlencoded": [
 								{
 									"key": "role_id",
-									"value": "",
+									"value": "2",
 									"description": "Role ID",
 									"type": "text"
 								},
 								{
 									"key": "first_name",
-									"value": "",
+									"value": "Hosseinn",
 									"type": "text"
 								},
 								{
 									"key": "last_name",
-									"value": "",
+									"value": "Mansourii",
 									"type": "text"
 								},
 								{
 									"key": "email",
-									"value": "",
+									"value": "hsn82@gmail.com",
 									"description": "Unique email for user",
 									"type": "text"
 								},
 								{
 									"key": "password",
-									"value": "",
+									"value": "234444",
 									"type": "text"
 								}
 							]
@@ -85,12 +85,12 @@
 							"urlencoded": [
 								{
 									"key": "first_name",
-									"value": "",
+									"value": "Admin",
 									"type": "text"
 								},
 								{
 									"key": "last_name",
-									"value": "",
+									"value": "Mansouri",
 									"type": "text"
 								}
 							]
@@ -107,7 +107,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": ""
+									"value": "1"
 								}
 							]
 						}
@@ -124,7 +124,7 @@
 							"urlencoded": [
 								{
 									"key": "email",
-									"value": "",
+									"value": "hsnmsri@admin.com",
 									"description": "New unique email",
 									"type": "text"
 								}
@@ -143,7 +143,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": ""
+									"value": "1"
 								}
 							]
 						}
@@ -160,7 +160,7 @@
 							"urlencoded": [
 								{
 									"key": "new_password",
-									"value": "",
+									"value": "61542493",
 									"description": "New user password",
 									"type": "text"
 								}
@@ -179,7 +179,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": ""
+									"value": "1"
 								}
 							]
 						}
@@ -268,7 +268,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": ""
+									"value": "2"
 								}
 							]
 						}
@@ -292,7 +292,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": ""
+									"value": "1"
 								}
 							]
 						}
@@ -788,6 +788,37 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get Data By Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/data/:id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"data",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -804,12 +835,12 @@
 							"urlencoded": [
 								{
 									"key": "email",
-									"value": "",
+									"value": "info@mrmansouri.ir",
 									"type": "text"
 								},
 								{
 									"key": "password",
-									"value": "",
+									"value": "61542493",
 									"type": "text"
 								}
 							]
@@ -827,24 +858,27 @@
 					"response": []
 				},
 				{
-					"name": "Logout",
+					"name": "Verify Access Token",
 					"request": {
-						"method": "DELETE",
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIsImlhdCI6MTcyMDk4NjIzMSwiZXhwIjoxNzIxMDcyNjMxfQ.epyFLe5UVWywA9csnLHO3GB5mWkoAAFgefLw52iZtOs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{BASE_URL}}/logout/:user_id",
+							"raw": "{{BASE_URL}}/verify_token",
 							"host": [
 								"{{BASE_URL}}"
 							],
 							"path": [
-								"logout",
-								":user_id"
-							],
-							"variable": [
-								{
-									"key": "user_id",
-									"value": ""
-								}
+								"verify_token"
 							]
 						}
 					},
@@ -884,7 +918,7 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "{{BASE_URL}}/reset_password?token&email",
+							"raw": "{{BASE_URL}}/reset_password?token&email&password",
 							"host": [
 								"{{BASE_URL}}"
 							],
@@ -898,6 +932,10 @@
 								},
 								{
 									"key": "email",
+									"value": null
+								},
+								{
+									"key": "password",
 									"value": null
 								}
 							]
@@ -913,7 +951,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjYsImlhdCI6MTcyMjU5MDc4NCwiZXhwIjoxNzIyNjc3MTg0fQ.nqhX2KesTkHwCY2tmNVXVguXPUvPPC_5Cvhsz-JZ_Wo",
 				"type": "string"
 			}
 		]
