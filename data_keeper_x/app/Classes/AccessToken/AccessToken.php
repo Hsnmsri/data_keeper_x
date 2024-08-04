@@ -75,14 +75,27 @@ class AccessToken
         }
     }
 
-    public static function getUserIdFromToken(string $token)
+    /**
+     * Extract the user ID from a given JWT token.
+     *
+     * @param string $token The JWT token to be decoded.
+     * @return int The user ID extracted from the token.
+     * @throws Exception if the token is invalid.
+     */
+    public static function getUserIdFromToken(string $token): int
     {
-        // Get the secret key from the environment variable
-        $secretKey = env('JWT_SECRET');
+        try {
+            // Get the secret key from the environment variable
+            $secretKey = env('JWT_SECRET');
 
-        // Decode the token
-        $decoded = JWT::decode($token, new Key($secretKey, 'HS256'));
+            // Decode the token
+            $decoded = JWT::decode($token, new Key($secretKey, 'HS256'));
 
-        dd($decoded);
+            // Return the user ID (sub) from the decoded token
+            return $decoded->sub;
+        } catch (Exception $e) {
+            // Handle exceptions (e.g., invalid token, expired token, etc.)
+            throw new Exception('Invalid token: ' . $e->getMessage());
+        }
     }
 }
