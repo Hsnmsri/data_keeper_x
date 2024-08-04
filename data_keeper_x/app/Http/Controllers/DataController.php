@@ -122,11 +122,19 @@ class DataController extends Controller
             $data->where("category_id", $request->category_id);
         }
 
-        return ApiResponse::success()->data($data->get() ?? [])->toArray();
+        $data = $data->get();
+
+        foreach ($data as $key => $value) {
+            $data[$key]['data_body'] = unserialize($data[$key]['data_body']);
+        }
+
+        return ApiResponse::success()->data($data ?? [])->toArray();
     }
 
     public function getDataById(Request $request)
     {
-        return ApiResponse::success()->data(Data::find($request->id))->toArray();
+        $data = Data::find($request->id);
+        $data['data_body'] = unserialize($data['data_body']);
+        return ApiResponse::success()->data($data)->toArray();
     }
 }
