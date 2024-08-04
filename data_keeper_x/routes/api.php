@@ -3,10 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DataController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AccessTokenCheck;
+use App\Http\Middleware\ClientRequestCheck;
 
 // Application Routes
 Route::prefix("/")->group(function () {
@@ -62,4 +64,11 @@ Route::prefix("/")->group(function () {
         Route::get("/{id}", [DataController::class, "getDataById"]);
     });
 
+    Route::prefix("client")->middleware([ClientRequestCheck::class])->group(function () {
+        Route::post("data", [ClientController::class, "createDataRecord"]);
+        Route::put("data/{id}", [ClientController::class, "updateDataRecord"]);
+        Route::delete("data/{id}", [ClientController::class, "deleteDataRecord"]);
+        Route::get("data", [ClientController::class, "getDataByCategory"]);
+        Route::get("data/{id}", [ClientController::class, "getDataById"]);
+    });
 });
