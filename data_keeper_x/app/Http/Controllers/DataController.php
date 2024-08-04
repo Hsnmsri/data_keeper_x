@@ -2,147 +2,131 @@
 
 namespace App\Http\Controllers;
 
-use App\Classes\ResponseBodyBuilder;
-use App\Models\Data;
 use Exception;
+use App\Models\Data;
 use Illuminate\Http\Request;
+use App\Classes\ResponseBodyBuilder;
+use App\Classes\ApiResponse\ApiResponse;
 use Illuminate\Support\Facades\Validator;
 
 class DataController extends Controller
 {
-    public function Create(Request $request)
+    public function createData(Request $request)
     {
-        // validating data
-        $validation = Validator::make($request->all(), [
-            "relation_id" => "numeric",
-            "data" => "required",
-        ]);
+        // validation
+        $validatorArray = [
+            "user_id" => "required",
+            "category_id" => "required",
+            "data_body" => "required",
+        ];
+
+        $validation = Validator::make($request->all(), $validatorArray);
         if ($validation->fails()) {
-            return ResponseBodyBuilder::buildFailureResponse(null, $validation->messages());
+            return ApiResponse::failure()->errors($validation->errors()->toArray())->toArray();
         }
 
-        //create records
+        // create data
         try {
-            $dataRecord = new Data();
-            $dataRecord->data = serialize($request->data);
-            // check relation id
-            if ($request->has("relation_id")) {
-                $dataRecord->relation_id = $request->relation_id;
-            }
-            // check name
-            if ($request->has("name")) {
-                $dataRecord->name = $request->name;
-            }
-            // check signature
-            if ($request->has("signature")) {
-                $dataRecord->signature = $request->signature;
+            $data = new Data();
+            $data->user_id = $request->user_id;
+            $data->category_id = $request->category_id;
+            $data->data_body = serialize($request->data_body);
+            if (!$data->save()) {
+                return ApiResponse::failure()->toArray();
             }
 
-            // save record
-            if (!$dataRecord->save()) {
-                return ResponseBodyBuilder::buildFailureResponse("save failed");
-            }
-        } catch (Exception $error) {
-            return ResponseBodyBuilder::buildFailureResponse(null, $error, 500);
+            return ApiResponse::success()->toArray();
+        } catch (\Exception $errors) {
+            return ApiResponse::failure()->errors([$errors->getMessage()])->toArray();
         }
-
-        return ResponseBodyBuilder::buildSuccessResponse();
     }
 
-    public function getDataById($id)
+    public function updateDataBody(Request $request)
     {
-        // validating data
-        if (!is_numeric($id) || is_null($id) || empty($id)) {
-            return ResponseBodyBuilder::buildFailureResponse("id not valid!");
-        }
+        // validation
+        $validatorArray = [
+            "data_body" => "required",
+        ];
 
-        // get data from db
-        $dataRecord = Data::find($id);
-
-        // if record not exist
-        if (!$dataRecord) {
-            return ResponseBodyBuilder::buildFailureResponse("record id not found!");
-        }
-
-        // unserialize data
-        $dataRecord->data = unserialize($dataRecord->data);
-
-        return ResponseBodyBuilder::buildSuccessResponse(null, $dataRecord);
-    }
-
-    public function getAllData()
-    {
-        // get all records
-        $allRecords = Data::all();
-
-        // unserialize all records
-        foreach ($allRecords as $key => $value) {
-            $allRecords[$key]->data = unserialize($value->data);
-        }
-
-        return ResponseBodyBuilder::buildSuccessResponse(null, $allRecords);
-    }
-
-    public function Delete($id)
-    {
-        // validating data
-        if (!is_numeric($id) || is_null($id) || empty($id)) {
-            return ResponseBodyBuilder::buildFailureResponse("id not valid!");
-        }
-
-        // delete record
-        try {
-            $dataRecord = Data::find($id);
-
-            // save record
-            if (!$dataRecord->delete()) {
-                return ResponseBodyBuilder::buildFailureResponse("delete failed");
-            }
-        } catch (Exception $error) {
-            return ResponseBodyBuilder::buildFailureResponse(null, $error, 500);
-        }
-
-        return ResponseBodyBuilder::buildSuccessResponse();
-    }
-
-    public function Update(Request $request)
-    {
-        // validating data
-        $validation = Validator::make($request->all(), [
-            "data_id" => "numeric|required",
-            "relation_id" => "numeric",
-        ]);
+        $validation = Validator::make($request->all(), $validatorArray);
         if ($validation->fails()) {
-            return ResponseBodyBuilder::buildFailureResponse(null, $validation->messages());
+            return ApiResponse::failure()->errors($validation->errors()->toArray())->toArray();
         }
 
-        // update record
+        // update data
         try {
-            $record = Data::find($request->id);
-            $record->data = serialize($request->data);
-            // check data
-            if ($request->has("data")) {
-                $record->data = $request->data;
-            }
-            // check relation id
-            if ($request->has("relation_id")) {
-                $record->relation_id = $request->relation_id;
-            }
-            // check name
-            if ($request->has("name")) {
-                $record->name = $request->name;
-            }
-            // check signature
-            if ($request->has("signature")) {
-                $record->signature = $request->signature;
+            $data = Data::find($request->id);
+            $data->data_body = serialize($request->data_body);
+            if (!$data->save()) {
+                return ApiResponse::failure()->toArray();
             }
 
-            // save record
-            if (!$record->save()) {
-                return ResponseBodyBuilder::buildFailureResponse("save failed");
-            }
-        } catch (Exception $error) {
-            return ResponseBodyBuilder::buildFailureResponse(null, $error, 500);
+            return ApiResponse::success()->toArray();
+        } catch (\Exception $errors) {
+            return ApiResponse::failure()->errors([$errors->getMessage()])->toArray();
         }
+    }
+
+    public function updateDataCategory(Request $request)
+    {
+        // validation
+        $validatorArray = [
+            "category_id" => "required",
+        ];
+
+        $validation = Validator::make($request->all(), $validatorArray);
+        if ($validation->fails()) {
+            return ApiResponse::failure()->errors($validation->errors()->toArray())->toArray();
+        }
+
+        // update data category
+        try {
+            $data = Data::where("id", $request->id)->where("category_id", $request->category_id)->first();
+            $data->category_id = $request->category_id;
+            if (!$data->save()) {
+                return ApiResponse::failure()->toArray();
+            }
+
+            return ApiResponse::success()->toArray();
+        } catch (\Exception $errors) {
+            return ApiResponse::failure()->errors([$errors->getMessage()])->toArray();
+        }
+    }
+
+    public function deleteData(Request $request)
+    {
+        // delete data
+        try {
+            $data = Data::find($request->id);
+            if (!$data->delete()) {
+                return ApiResponse::failure()->toArray();
+            }
+
+            return ApiResponse::success()->toArray();
+        } catch (\Exception $errors) {
+            return ApiResponse::failure()->errors([$errors->getMessage()])->toArray();
+        }
+    }
+
+    public function getDataList(Request $request)
+    {
+        $data = Data::query();
+
+        // filter by user id
+        if ($request->has("user_id")) {
+            $data->where("user_id", $request->user_id);
+        }
+
+        // filter by category id
+        if ($request->has("category_id")) {
+            $data->where("category_id", $request->category_id);
+        }
+
+        return ApiResponse::success()->data($data->get() ?? [])->toArray();
+    }
+
+    public function getDataById(Request $request)
+    {
+        return ApiResponse::success()->data(Data::find($request->id))->toArray();
     }
 }
