@@ -3,6 +3,7 @@
 namespace App\Classes\ApiSecretToken;
 
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 class ApiSecretToken
 {
@@ -26,5 +27,26 @@ class ApiSecretToken
             env('JWT_SECRET'),
             'HS256'
         );
+    }
+
+    /**
+     * Decode a JWT token to get the user ID.
+     *
+     * This function decodes a JSON Web Token (JWT) and extracts the user ID
+     * from the payload.
+     *
+     * @param string $token The JWT token to be decoded.
+     * @return int The user ID extracted from the token.
+     * @throws \Exception if the token is invalid or expired.
+     */
+    public static function getUserIdFromToken(string $token): int
+    {
+        try {
+            $decoded = JWT::decode($token, new Key(env('JWT_SECRET'), 'HS256'));
+            return $decoded->sub;
+        } catch (\Exception $e) {
+            // Handle exceptions (e.g., invalid token, expired token, etc.)
+            throw new \Exception('Invalid token: ' . $e->getMessage());
+        }
     }
 }
