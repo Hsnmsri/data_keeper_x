@@ -65,7 +65,7 @@ class AuthController extends Controller
                     return ApiResponse::failure()->errors(['line' => __LINE__])->toArray();
                 }
             } catch (Exception $error) {
-                return ApiResponse::failure()->errors($error ?? [])->toArray();
+                return ApiResponse::failure()->errors([$error->getMessage()])->toArray();
             }
         }
 

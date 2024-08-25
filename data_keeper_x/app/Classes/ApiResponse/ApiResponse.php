@@ -19,7 +19,7 @@ class ApiResponse
      */
     public static function success(int $status_code = 200, string $status_title = "OK")
     {
-        return new ApiResponseBody("success", $status_code, $status_title);
+        return new ApiResponseBody(true, $status_code, $status_title);
     }
 
     /**
@@ -31,6 +31,6 @@ class ApiResponse
      */
     public static function failure(int $status_code = 500, string $status_title = "Internal Server Error")
     {
-        return new ApiResponseBody("error", $status_code, $status_title);
+        return new ApiResponseBody(false, $status_code, $status_title);
     }
 }

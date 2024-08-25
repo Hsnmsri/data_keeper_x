@@ -10,7 +10,7 @@ namespace App\Classes\ApiResponse;
  */
 class ApiResponseBody
 {
-    private $status;
+    private bool $success;
     private $status_code;
     private $status_title;
     private $message;
@@ -24,9 +24,9 @@ class ApiResponseBody
      * @param int $status_code The HTTP status code, e.g., 200 for success.
      * @param string $status_title The title of the status, e.g., "OK" or "Error".
      */
-    public function __construct(string $status, int $status_code, string $status_title)
+    public function __construct(bool $success, int $status_code, string $status_title)
     {
-        $this->status = $status;
+        $this->success = $success;
         $this->status_code = $status_code;
         $this->status_title = $status_title;
     }
@@ -75,7 +75,7 @@ class ApiResponseBody
     public function toArray(): array
     {
         return [
-            "status" => $this->status,
+            "success" => $this->success,
             "status_code" => $this->status_code,
             "status_title" => $this->status_title,
             "message" => $this->message,
