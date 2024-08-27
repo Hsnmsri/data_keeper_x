@@ -13,17 +13,17 @@ use App\Http\Middleware\ClientRequestCheck;
 // Application Routes
 Route::prefix("/")->group(function () {
 
-    // authentication
+    // Authentication
     Route::post("login", [AuthController::class, "Login"]);
     Route::get("verify_token", [AuthController::class, "verifyAccessToken"])->middleware([AccessTokenCheck::class]);
 
-    // reset password
+    // Reset password
     Route::prefix("reset_password")->group(function () {
         Route::post("request", [AuthController::class, "requestResetPassword"]);
         Route::put('/', [AuthController::class, 'resetPassword']);
     });
 
-    // user
+    // User
     Route::prefix("users")->middleware([AccessTokenCheck::class])->group(function () {
         Route::get("/", [UserController::class, "getUserList"]);
         Route::post("/", [UserController::class, "createUser"]);
@@ -54,7 +54,7 @@ Route::prefix("/")->group(function () {
         Route::get("/{user_id}", [CategoryController::class, "getCategoryByUserId"]);
     });
 
-    // data
+    // Data
     Route::prefix("data")->middleware([AccessTokenCheck::class])->group(function () {
         Route::post("/", [DataController::class, "createData"]);
         Route::put("/{id}", [DataController::class, "updateDataBody"]);
@@ -64,6 +64,7 @@ Route::prefix("/")->group(function () {
         Route::get("/{id}", [DataController::class, "getDataById"]);
     });
 
+    // Client routes
     Route::prefix("client")->middleware([ClientRequestCheck::class])->group(function () {
         Route::post("data", [ClientController::class, "createDataRecord"]);
         Route::put("data/{id}", [ClientController::class, "updateDataRecord"]);

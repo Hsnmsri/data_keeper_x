@@ -127,6 +127,6 @@ class RoleController extends Controller
 
     public function getRoleById(Request $request)
     {
-        return ApiResponse::success()->data(Role::with("permissions")->find($request->id))->toArray();
+        return ApiResponse::success()->data(Role::with("permissions")->find($request->id)->toArray())->toArray();
     }
 }
