@@ -122,7 +122,7 @@ class RoleController extends Controller
 
     public function getRoleList(Request $request)
     {
-        return ApiResponse::success()->data(Role::with("permissions")->get() ?? [])->toArray();
+        return ApiResponse::success()->data(Role::with('permissions')->get()->toArray())->toArray();
     }
 
     public function getRoleById(Request $request)
