@@ -20,7 +20,6 @@ class UserController extends Controller
     {
         // validation
         $validatorArray = [
-            "role_id" => "required|numeric",
             "first_name" => "required",
             "last_name" => "required",
             "email" => "email|required",
