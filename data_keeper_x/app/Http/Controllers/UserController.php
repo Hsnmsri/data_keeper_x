@@ -176,13 +176,8 @@ class UserController extends Controller
     public function updateUserRole(Request $request)
     {
         // validation
-        $validatorArray = [
-            "role_id" => "required",
-        ];
-
-        $validation = Validator::make($request->all(), $validatorArray);
-        if ($validation->fails()) {
-            return ApiResponse::failure()->errors($validation->errors()->toArray())->toArray();
+        if (!$request->has("role_id")) {
+            return ApiResponse::failure()->errors(["role_id" => "role_id not set!"])->toArray();
         }
 
         try {
